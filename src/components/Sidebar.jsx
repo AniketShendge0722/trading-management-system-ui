@@ -43,23 +43,9 @@ const Sidebar = () => {
 
     </ListItemButton>
 
-    <ListItemButton
-      onClick={()=>navigate("/accounts")}>
 
-      <ListItemText
-        primary="Accounts"
-      />
 
-    </ListItemButton>
 
-    <ListItemButton
-      onClick={()=>navigate("/transactions")}>
-
-      <ListItemText
-        primary="Transactions"
-      />
-
-    </ListItemButton>
 
     <ListItemButton
       onClick={()=>navigate("/trades")}>
@@ -71,19 +57,64 @@ const Sidebar = () => {
     </ListItemButton>
 
     <ListItemButton
-      onClick={()=>navigate("/portfolio")}>
-
-      <ListItemText
-        primary="Portfolio"
-      />
-
-    </ListItemButton>
-    <ListItemButton
  onClick={()=>
  navigate("/accounts")
 }>
  <ListItemText
   primary="Accounts"
+/>
+
+</ListItemButton>
+<ListItemButton
+ onClick={() =>
+  navigate("/deposit")
+ }>
+ <ListItemText
+  primary="Deposit"
+/>
+</ListItemButton>
+
+<ListItemButton
+ onClick={() =>
+  navigate("/withdraw")
+ }>
+ <ListItemText
+  primary="Withdraw"
+/>
+</ListItemButton>
+<ListItemButton
+ onClick={() =>
+  navigate("/transactions")
+ }>
+ <ListItemText
+  primary="Transactions"
+/>
+</ListItemButton>
+<ListItemButton onClick={()=>navigate("/buy")}>
+ <ListItemText primary="Buy Stock"/>
+</ListItemButton>
+
+<ListItemButton onClick={()=>navigate("/sell")}>
+ <ListItemText primary="Sell Stock"/>
+</ListItemButton>
+
+<ListItemButton onClick={()=>navigate("/trade-history")}>
+ <ListItemText primary="Trade History"/>
+</ListItemButton>
+<ListItemButton
+ onClick={() =>
+ navigate("/portfolio")
+ }>
+ <ListItemText
+  primary="Portfolio"
+/>
+</ListItemButton>
+<ListItemButton
+ onClick={() =>
+ navigate("/reports")
+ }>
+ <ListItemText
+  primary="Reports"
 />
 </ListItemButton>
 

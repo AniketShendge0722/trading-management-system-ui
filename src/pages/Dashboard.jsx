@@ -1,129 +1,145 @@
-import React,{useEffect,useState}
-from "react";
+import React, { useEffect, useState } from "react";
 
 import api from "../api/axiosConfig";
-
-import MainLayout
-from "../layouts/MainLayout";
+import MainLayout from "../layouts/MainLayout";
 
 import {
  Grid,
  Card,
  CardContent,
- Typography
-}
-from "@mui/material";
+ Typography,
+ Box
+} from "@mui/material";
 
-function Dashboard(){
+import PeopleIcon from "@mui/icons-material/People";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
- const [data,setData] =
- useState({});
+function Dashboard() {
 
- useEffect(()=>{
+ const [data, setData] = useState({});
 
-   loadDashboard();
+ useEffect(() => {
+  loadDashboard();
+ }, []);
 
- },[]);
+ const loadDashboard = async () => {
 
- const loadDashboard =
- async()=>{
+  try {
 
-   const res =
-   await api.get("/dashboard");
+   const res = await api.get("/dashboard");
 
    setData(res.data);
+
+  } catch (error) {
+
+   console.log(error);
+  }
  };
 
- return(
+ const cards = [
+
+  {
+   title: "Customers",
+   value: data.totalCustomers || 0,
+   icon: <PeopleIcon fontSize="large" />
+  },
+
+  {
+   title: "Accounts",
+   value: data.totalAccounts || 0,
+   icon: <AccountBalanceIcon fontSize="large" />
+  },
+
+  {
+   title: "Trades",
+   value: data.totalTrades || 0,
+   icon: <TrendingUpIcon fontSize="large" />
+  },
+
+  {
+   title: "Deposits",
+   value: `₹ ${data.totalDeposits || 0}`,
+   icon: <CurrencyRupeeIcon fontSize="large" />
+  },
+
+  {
+   title: "Withdrawals",
+   value: `₹ ${data.totalWithdrawals || 0}`,
+   icon: <CurrencyRupeeIcon fontSize="large" />
+  }
+ ];
+
+ return (
 
   <MainLayout>
 
-   <Grid
-     container
-     spacing={3}>
+   <Typography
+    variant="h4"
+    gutterBottom
+   >
+    Dashboard
+   </Typography>
 
-    <Grid size={4}>
+   <Grid container spacing={3}>
 
-      <Card>
+    {cards.map((card, index) => (
+
+     <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      key={index}
+     >
+
+      <Card
+       sx={{
+        borderRadius: 3,
+        boxShadow: 4
+       }}
+      >
 
        <CardContent>
 
-        <Typography
-         variant="h6">
+        <Box
+         display="flex"
+         justifyContent="space-between"
+         alignItems="center"
+        >
 
-         Customers
+         <Box>
 
-        </Typography>
+          <Typography
+           color="text.secondary"
+          >
+           {card.title}
+          </Typography>
 
-        <Typography
-         variant="h4">
+          <Typography
+           variant="h4"
+          >
+           {card.value}
+          </Typography>
 
-         {data.totalCustomers}
+         </Box>
 
-        </Typography>
+         {card.icon}
+
+        </Box>
 
        </CardContent>
 
       </Card>
 
-    </Grid>
+     </Grid>
 
-    <Grid size={4}>
-
-      <Card>
-
-       <CardContent>
-
-        <Typography
-         variant="h6">
-
-         Accounts
-
-        </Typography>
-
-        <Typography
-         variant="h4">
-
-         {data.totalAccounts}
-
-        </Typography>
-
-       </CardContent>
-
-      </Card>
-
-    </Grid>
-
-    <Grid size={4}>
-
-      <Card>
-
-       <CardContent>
-
-        <Typography
-         variant="h6">
-
-         Trades
-
-        </Typography>
-
-        <Typography
-         variant="h4">
-
-         {data.totalTrades}
-
-        </Typography>
-
-       </CardContent>
-
-      </Card>
-
-    </Grid>
+    ))}
 
    </Grid>
 
   </MainLayout>
-
  );
 }
 

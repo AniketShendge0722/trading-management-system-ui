@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
-import { TextField, Button, Paper, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Paper,
+  Typography,
+  Box
+} from "@mui/material";
 import { createAccount } from "../api/accountApi";
 import { useNavigate } from "react-router-dom";
 
 function CreateAccount() {
 
   const navigate = useNavigate();
-
-  const [account, setAccount] = useState({
-    customerId: "",
-    balance: 0
-  });
+const [account, setAccount] = useState({
+  customerId: "",
+  balance: "",
+  status: "ACTIVE"
+});
 
   const handleChange = (e) => {
     setAccount({
@@ -21,31 +27,72 @@ function CreateAccount() {
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
-    await createAccount(account);
+    try {
 
-    navigate("/accounts");
+ await createAccount({
+  customerId: Number(account.customerId),
+  balance: Number(account.balance),
+  status: account.status
+});
+      alert("Account Created Successfully");
+
+      navigate("/accounts");
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        error?.response?.data?.message ||
+        "Failed to Create Account"
+      );
+    }
   };
 
   return (
     <MainLayout>
 
-      <Paper sx={{ p: 3 }}>
+      <Paper
+        sx={{
+          p: 4,
+          maxWidth: 600,
+          mx: "auto"
+        }}
+      >
 
-        <Typography variant="h5">
+        <Typography
+          variant="h5"
+          gutterBottom
+        >
           Create Trading Account
         </Typography>
 
-        <form onSubmit={handleSubmit}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+        >
+{/* 
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Account Number"
+            name="accountNumber"
+            value={account.accountNumber}
+            onChange={handleChange}
+            required
+          /> */}
 
           <TextField
             fullWidth
             margin="normal"
-            label="Customer Id"
+            label="Customer ID"
             name="customerId"
+            type="number"
+            value={account.customerId}
             onChange={handleChange}
+            required
           />
 
           <TextField
@@ -53,17 +100,30 @@ function CreateAccount() {
             margin="normal"
             label="Opening Balance"
             name="balance"
+            type="number"
+            value={account.balance}
+            onChange={handleChange}
+            required
+          />
+
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Status"
+            name="status"
+            value={account.status}
             onChange={handleChange}
           />
 
           <Button
             variant="contained"
             type="submit"
+            sx={{ mt: 2 }}
           >
             Create Account
           </Button>
 
-        </form>
+        </Box>
 
       </Paper>
 
@@ -72,7 +132,3 @@ function CreateAccount() {
 }
 
 export default CreateAccount;
-
-
-
-aaddi backend  git la push karuya proper mg prt frontend karu code gela tr ky karu addi git la jaude saglal backend mla sang steps ky ky git chya 

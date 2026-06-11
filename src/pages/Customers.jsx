@@ -31,6 +31,7 @@ from "@mui/material";
 import { useNavigate }
 from "react-router-dom";
 
+
 function Customers(){
 
  const navigate =
@@ -109,9 +110,14 @@ const filteredCustomers = customers
 
    </div>
    
-<TextField label="Search Customer"sx={{ mb: 2 }} onChange={(e) =>
-    setSearch(e.target.value)
-  }
+<TextField
+ fullWidth
+ label="Search Customer"
+ sx={{ mb: 2 }}
+ value={search}
+ onChange={(e) =>
+  setSearch(e.target.value)
+ }
 />
    <TableContainer
     component={Paper}>
@@ -131,68 +137,59 @@ const filteredCustomers = customers
 
        </TableRow>
 
-      </TableHead>
+      </TableHead><TableBody>
 
-      <TableBody>
+ {filteredCustomers.map(
+ (customer)=>(
 
-       {customers.map(
-       (customer)=>(
+  <TableRow
+   key={customer.customerId}
+  >
 
-        <TableRow
-         key={
-          customer.customerId
-         }>
+   <TableCell>
+    {customer.customerId}
+   </TableCell>
 
-         <TableCell>
-          {customer.customerId}
-         </TableCell>
+   <TableCell>
+    {customer.fullName}
+   </TableCell>
 
-         <TableCell>
-          {customer.fullName}
-         </TableCell>
+   <TableCell>
+    {customer.email}
+   </TableCell>
 
-         <TableCell>
-          {customer.email}
-         </TableCell>
+   <TableCell>
+    {customer.mobile}
+   </TableCell>
 
-         <TableCell>
-          {customer.mobile}
-         </TableCell>
+   <TableCell>
 
-         <TableCell>
+    <Button
+     size="small"
+     onClick={() =>
+      navigate(`/customers/edit/${customer.customerId}`)
+     }
+    >
+      Edit
+    </Button>
 
-          <Button
-           size="small"
-           onClick={()=>
-            navigate(
-             `/customers/edit/${customer.customerId}`
-            )
-           }>
+    <Button
+     color="error"
+     size="small"
+     onClick={() =>
+      handleDelete(customer.customerId)
+     }
+    >
+      Delete
+    </Button>
 
-            Edit
+   </TableCell>
 
-          </Button>
+  </TableRow>
 
-          <Button
-           color="error"
-           size="small"
-           onClick={()=>
-            handleDelete(
-             customer.customerId
-            )
-           }>
+ ))}
 
-            Delete
-
-          </Button>
-
-         </TableCell>
-
-        </TableRow>
-
-       ))}
-
-      </TableBody>
+</TableBody>
 
     </Table>
 

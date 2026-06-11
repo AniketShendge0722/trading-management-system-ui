@@ -10,7 +10,13 @@ const Navbar = () => {
 
  const logout = () => {
 
-   localStorage.clear();
+ localStorage.removeItem(
+  "token"
+ );
+  localStorage.removeItem(
+  "username"
+ );
+
 
    window.location.href="/";
  };
@@ -45,3 +51,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+

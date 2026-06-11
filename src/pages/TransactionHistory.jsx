@@ -22,55 +22,42 @@ import {
 from "@mui/material";
 
 import {
- getPortfolio
+ getTransactions
 }
-from "../api/portfolioApi";
+from "../api/transactionApi";
 
-function Portfolio(){
+function TransactionHistory(){
 
  const [accountId,
  setAccountId] =
  useState("");
 
- const [holdings,
- setHoldings] =
+ const [transactions,
+ setTransactions] =
  useState([]);
 
- const loadPortfolio =
+ const loadTransactions =
  async()=>{
 
-  try{
+   try{
 
-   const res =
-   await getPortfolio(
-    accountId
-   );
+     const res =
+     await getTransactions(
+      accountId
+     );
 
-   setHoldings(
-    res.data
-   );
+     setTransactions(
+      res.data
+     );
 
-  }
-  catch(error){
+   }
+   catch(error){
 
-   alert(
-    error.response?.data?.message
-   );
-  }
+     alert(
+      error.response?.data?.message
+     );
+   }
  };
-
- const totalValue =
- holdings.reduce(
- (sum,item)=>
-
- sum +
- (
-  item.quantity *
-  item.avgPrice
- ),
-
- 0
- );
 
  return(
 
@@ -84,7 +71,7 @@ function Portfolio(){
     <Typography
      variant="h5">
 
-      Portfolio
+      Transaction History
 
     </Typography>
 
@@ -108,7 +95,7 @@ function Portfolio(){
      <Button
       variant="contained"
       onClick={
-       loadPortfolio
+       loadTransactions
       }>
 
       Search
@@ -132,19 +119,19 @@ function Portfolio(){
       <TableRow>
 
        <TableCell>
-        Symbol
+        Transaction Id
        </TableCell>
 
        <TableCell>
-        Quantity
+        Type
        </TableCell>
 
        <TableCell>
-        Avg Price
+        Amount
        </TableCell>
 
        <TableCell>
-        Holding Value
+        Date
        </TableCell>
 
       </TableRow>
@@ -154,39 +141,28 @@ function Portfolio(){
      <TableBody>
 
       {
-       holdings.map(
-       (holding)=>(
+       transactions.map(
+       (txn)=>(
 
        <TableRow
         key={
-         holding.holdingId
+         txn.transactionId
         }>
 
         <TableCell>
-         {
-          holding.stockSymbol
-         }
+         {txn.transactionId}
         </TableCell>
 
         <TableCell>
-         {
-          holding.quantity
-         }
+         {txn.transactionType}
         </TableCell>
 
         <TableCell>
-         ₹
-         {
-          holding.avgPrice
-         }
+         ₹ {txn.amount}
         </TableCell>
 
         <TableCell>
-         ₹
-         {
-          holding.quantity *
-          holding.avgPrice
-         }
+         {txn.transactionDate}
         </TableCell>
 
        </TableRow>
@@ -200,30 +176,8 @@ function Portfolio(){
 
    </TableContainer>
 
-   <Paper
-    sx={{
-     mt:3,
-     p:3
-    }}>
-
-    <Typography
-     variant="h5">
-
-      Total Portfolio Value
-
-    </Typography>
-
-    <Typography
-     variant="h4">
-
-      ₹ {totalValue}
-
-    </Typography>
-
-   </Paper>
-
   </MainLayout>
  );
 }
 
-export default Portfolio;
+export default TransactionHistory;
